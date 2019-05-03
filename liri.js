@@ -1,8 +1,8 @@
 require("dotenv").config();
-//var keys = require("./keys.js");////////////////////////
+//var keys = require("key.js");////////////////////////
 
 //can access keys using below
-//var spotify = new Spotify(keys.spotify);////////////////////
+var spotify = new Spotify({id: process.env.SPOTIFY_ID, secret: process.env.SPOTIFY_SECRET});////////////////////
 
 //console.log(spotify)///////////////////////////
 
@@ -19,8 +19,8 @@ switch (process.argv[2]) {
       movie();
       break;
     
-    case "withdraw":
-      withdraw();
+    case "spotify-this-song":
+      spotify();
       break;
     
     case "lotto":
@@ -55,6 +55,17 @@ function movie() {
             console.log("Language: " + response.data.Language);
             console.log("Language: " + response.data.Plot);
             console.log("Language: " + response.data.Actors);
+        }
+    );
+}
+
+function spotify() {
+  var axios = require("axios");
+
+    axios.get("https://api.spotify.com/v1/artists/1vCWHaC5f2uS3yhpwWbIA6/albums?album_type=SINGLE&offset=20&limit=10").then(
+        function(response) {
+
+            console.log(response.data);
         }
     );
 }
