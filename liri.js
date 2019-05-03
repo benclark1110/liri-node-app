@@ -2,13 +2,12 @@ require("dotenv").config();
 //var keys = require("key.js");////////////////////////
 
 //can access keys using below
-var spotify = new Spotify({id: process.env.SPOTIFY_ID, secret: process.env.SPOTIFY_SECRET});////////////////////
-
-//console.log(spotify)///////////////////////////
+var Spotify = require('node-spotify-api');
+var spotify = new Spotify({
+                        id: process.env.SPOTIFY_ID, 
+                        secret: process.env.SPOTIFY_SECRET});
 
 var moment = require('moment');
-
-console.log(process.argv[2]);
 
 switch (process.argv[2]) {
     case "concert-this":
@@ -20,11 +19,11 @@ switch (process.argv[2]) {
       break;
     
     case "spotify-this-song":
-      spotify();
+      song();
       break;
     
-    case "lotto":
-      lotto();
+    case "do-what-it-says":
+      whatItSay();
       break;
 }
 
@@ -34,9 +33,9 @@ function concert() {
     axios.get("https://rest.bandsintown.com/artists/weezer/events?app_id=codingbootcamp").then(
         function(response) {
 
-            console.log("The Venue Name is: " + response.data[0].venue.name);
-            console.log("The Venue Location is: " + response.data[0].venue.city);
-            console.log("The Date of the Event is: " + moment(response.data[0].datetime).format("MM/DD/YYYY"));
+            console.log("Venue: " + response.data[0].venue.name);
+            console.log("Location: " + response.data[0].venue.city);
+            console.log("Date of the Event: " + moment(response.data[0].datetime).format("MM/DD/YYYY"));
         }
     );
 }
@@ -53,19 +52,36 @@ function movie() {
             console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
             console.log("Country: " + response.data.Country);
             console.log("Language: " + response.data.Language);
-            console.log("Language: " + response.data.Plot);
-            console.log("Language: " + response.data.Actors);
+            console.log("Plot: " + response.data.Plot);
+            console.log("Actors: " + response.data.Actors);
         }
     );
 }
 
-function spotify() {
-  var axios = require("axios");
+function song() {
+    spotify.search({ type: 'track', query: 'Hollaback Girl' }, function(err, data) {
+      if (err) {
+        return console.log('Error occurred: ' + err);
+      }
+    
+  console.log("Artist: " + data.tracks.items[0].artists[0].name);
+  console.log("Name: " + data.tracks.items[0].name);
+  console.log("Spotify link: " + data.tracks.items[0].external_urls.spotify);
+  console.log("Album: " + data.tracks.items[0].album.name);
+    });
 
-    axios.get("https://api.spotify.com/v1/artists/1vCWHaC5f2uS3yhpwWbIA6/albums?album_type=SINGLE&offset=20&limit=10").then(
-        function(response) {
+}
 
-            console.log(response.data);
-        }
-    );
+function whatItSay() {
+  spotify.search({ type: 'track', query: 'Hollaback Girl' }, function(err, data) {
+    if (err) {
+      return console.log('Error occurred: ' + err);
+    }
+  
+console.log("Artist: " + data.tracks.items[0].artists[0].name);
+console.log("Name: " + data.tracks.items[0].name);
+console.log("Spotify link: " + data.tracks.items[0].external_urls.spotify);
+console.log("Album: " + data.tracks.items[0].album.name);
+  });
+
 }
