@@ -53,6 +53,7 @@ function concert() {
           concertLocation = "Location: " + response.data[0].venue.city;
           concertDate = "Date of the Event: " + moment(response.data[0].datetime).format("MM/DD/YYYY");
           concertDetails = concertVenue + "\n" + concertLocation + "\n" + concertDate + "\n-------------\n";
+          console.log(concertDetails);
           logStuff(concertDetails);
       }
   );
@@ -64,6 +65,10 @@ function movie() {
   var nodeArgs = process.argv;
   
   var commandName = "";
+
+  if (nodeArgs.length == 3) {
+    commandName = "Mr.+Nobody";
+  }
 
   for (var i = 3; i < nodeArgs.length; i++) {
 
@@ -89,6 +94,7 @@ function movie() {
           moviePlot = "Plot: " + response.data.Plot;
           movieActors = "Actors: " + response.data.Actors;
           movieDetails = movieTitle + "\n" + movieYear + "\n" + imdbRating + "\n" + rottenRating + "\n" + movieCountry + movieLanguage + "\n" + moviePlot + "\n" + movieActors + "\n-------------\n";
+          console.log(movieDetails);
           logStuff(movieDetails);
       }
   );
@@ -122,6 +128,7 @@ function song() {
       spotifyLink = "Spotify link: " + data.tracks.items[0].external_urls.spotify;
       songAlbum = "Album: " + data.tracks.items[0].album.name;
       songDetails = songArtist + "\n" + songName + "\n" + spotifyLink + "\n" + songAlbum + "\n-------------\n";
+      console.log(songDetails);
       logStuff(songDetails);
     });
 
@@ -164,6 +171,7 @@ function whatItSay() {
         spotifyLink = "Spotify link: " + data.tracks.items[0].external_urls.spotify;
         songAlbum = "Album: " + data.tracks.items[0].album.name;
         songDetails = songArtist + "\n" + songName + "\n" + spotifyLink + "\n" + songAlbum + "\n-------------\n";
+        console.log(songDetails);
         logStuff(songDetails);
       });
   });
